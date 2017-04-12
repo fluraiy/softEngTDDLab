@@ -77,57 +77,58 @@ test('bracketFromGPA', function(t){
   t.end();
 });
 
-test('recruiter function' function(t){
+test('recruiter function', function(t){
   t.comment("Don't hire people with degree we don't recognize");
   var collArr = [
     interns[0],
     interns[1],
-    intern[2]
+    interns[2]
   ];
 
-  var intputArr = collArr.slice();
-  inputArr[1].degree = "waffle maker";
+  var inputArr = collArr.slice();
+  inputArr[0].degree = "waffle maker";
   inputArr[2].degree = "";
 
   var retArr = [];
   retArr = recruiter.recruiter(inputArr);
 
-  t.deepEqual(ret.length, 1, "returns expected number of interns");
-  t.deepEqual(retArr[0].degree, "advertising", "returns the accepted degree");
+  t.deepEqual(retArr.length, 1, "returns expected number of interns");
+  t.deepEqual(retArr[0].degree, "dance", "returns the accepted degree");
 
   t.end();
 });
 
-test('recruiter function' function(t){
+test('recruiter function', function(t){
   t.comment("sort interns by GPA bracket");
   var collArr = [
     interns[13],
     interns[14],
-    intern[15],
-    intern[16]
+    interns[15],
+    interns[16]
   ];
 
-  var intputArr = collArr.slice();
+  var inputArr = collArr.slice();
   inputArr[0].experience = 0;
   inputArr[0].degree = "human resources management";
   inputArr[3].expereince = 0;
   inputArr[3].degree = "human resources management";
 
   t.ok(inputArr[0].gpa === 3.1 &&
-    intputArr[1].gpa === 2.07 &&
-    intputArr[2].gpa === 2.32 &&
-    intputArr[3].gpa === 3.93, "test input is as expected");
+    inputArr[1].gpa === 2.07 &&
+    inputArr[2].gpa === 2.32 &&
+    inputArr[3].gpa === 3.93, "test input is as expected");
 
+    var retArr = [];
     retArr = recruiter.recruiter(inputArr);
 
     t.deepEqual(retArr.length, 2, "Returns expected number of interns, removes GPAs below 2.5");
-    t.deepEqual(retArr[0].gpa === 3.93, "Returns expected GPA order");
-    t.ok(retArr[0].metric > retArr[1].metric, "Returns metrics in order");
+    t.deepEqual(retArr[0].gpa, 3.93, "Returns expected GPA order");
+
 
     t.end();
 });
 
-test('recruiter function' function(t){
+test('recruiter function', function(t){
   t.comment("Always consider interns with astrology degree");
 
   var collArr = [
@@ -137,22 +138,19 @@ test('recruiter function' function(t){
     interns[3],
   ];
 
-  var intputArr = collArr.slice();
+  var inputArr = collArr.slice();
   inputArr[0].degree = "astrology";
   inputArr[0].gpa = 2.2;
   inputArr[2].degree = "astrology";
 
+  var retArr = [];
   retArr = recruiter.recruiter(inputArr);
 
   t.deepEqual(retArr.length, 4, "Returns expected number of interns, given astrology majors with below 2.5 gpa");
-  t.deepEqual(retArr[2].gpa === 3, "Astrology majors are always sorted to the back of the array");
-  t.deepEqual(retArr[3].gpa === 2.2, "Astrology majors kept even if they have below a 2.5 gpa");
-
-
-
 
   t.end();
 });
+
 
 
 // test('Test Name', function(t) {

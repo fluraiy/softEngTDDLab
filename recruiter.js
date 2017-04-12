@@ -5,6 +5,10 @@ var degreeSWage = require('./degreeSWage.json');
 // File containing some of our utility functions (already written)
 var util = require('./util.js');
 
+//Array containing recognizable degreeSWage
+var degrees = degreeSWage.degreenames;
+
+
 //TODO: You need to write this function AND utilize it.
 // bracketFromGPA(decimal GPA);
 function bracketFromGPA(gpa) {
@@ -31,6 +35,46 @@ function recruiter(internArr) {
 	var iexp = internArr[index].experiance;
 	var iwage, ivalue, ibracket, imetric;
 
+	//remove interns with gpa's under 2.5 and interns with unrecognizable degrees
+	var i;
+	var j;
+	var ind = [];
+	for(i = 0; i < internArr.length; i++){
+		//record interns with gpa's under 2.5
+		if(internArr[i].gpa < 2.5 && internArr[i].degree != "astrology"){
+			ind.push(i);
+			continue;
+		}
+		//record interns with unrecognizable degrees
+		for(j = 0; j < degrees.length; j++){
+			if(internArr[i].degree == degrees[j]){ break; }
+			else if(j+1 == degrees.length){
+				ind.push(i);
+			}
+		}
+	}
+
+	//remove recorded intenrs
+	for(i = (ind.length - 1); i >= 0; i--){
+		internArr.splice(ind[i], 1);
+	}
+
+	//bubble sort interns by gpa
+	var flag = true;
+	var temp;
+	for(i = 1; (i <= internArr.length) && flag; i++){
+		flag = false;
+		for(j = 0; j < (internArr.length-1); j++){
+			if(internArr[j+1].gpa > internArr[j].gpa){
+				temp = internArr[j];
+				internArr[j] = internArr[j+1];
+				internArr[j+1] = temp;
+				flag = true;
+			}
+		}
+	}
+	
+
 	// Yep, you can use strings as an "index" (technically it's a property) in JavaScript
 	idegr = idegr.toLowerCase();
 	iwage = degreeSWage[idegr];
@@ -43,7 +87,7 @@ function recruiter(internArr) {
 	imetric = ivalue + ibracket;
 
 	// We really want to add our sorting number "metric" to objects (it really is this easy)
-	internArr[index].metric = imetric;
+	//internArr[index].metric = imetric;
 
 	// and then sort them all (it doesn't return anything, it modifies the array sent)
 	//util.sortInternObjects( /*Array of hireables with "metric" as a property*/ );
